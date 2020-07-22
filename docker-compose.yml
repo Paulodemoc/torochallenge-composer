@@ -1,10 +1,10 @@
 version: "3"
 services:
-  toroinvestimentos:
-    image: toroinvestimentos/quotesmock
-    container_name: toroinvestimentos
-    ports:
-      - "4008:8080"
+  # toroinvestimentos:
+  #   image: toroinvestimentos/quotesmock
+  #   container_name: toroinvestimentos
+  #   ports:
+  #     - "4008:8080"
   mongostocks:
     build:
       dockerfile: Dockerfile
@@ -16,25 +16,25 @@ services:
   backendstocks:
     build:
       dockerfile: Dockerfile
-      context: ./backend
+      context: ../torochallenge-backend
     container_name: backendstocks
     image: backendstocks:latest
     links:
-      - toroinvestimentos
+      # - toroinvestimentos
       - mongostocks
     ports:
       - "4000:4000"
-    depends_on: ["toroinvestimentos", "mongostocks"]
+    depends_on: ["mongostocks"]
   frontendstocks:
     build:
       dockerfile: Dockerfile
-      context: ./frontend
+      context: ../torochallenge-frontend
     container_name: frontendstocks
     image: frontendstocks:latest
     links:
-      - toroinvestimentos
+      # - toroinvestimentos
       - mongostocks
       - backendstocks
     ports:
       - "4200:4200"
-    depends_on: ["toroinvestimentos", "mongostocks", "backendstocks"]
+    depends_on: ["mongostocks", "backendstocks"]
